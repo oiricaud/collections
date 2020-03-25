@@ -1,0 +1,209 @@
+apiVersion: tekton.dev/v1alpha1
+kind: Task
+metadata:
+  name: stacks-build-task
+spec:
+  inputs:
+    resources:
+      - name: git-source
+        type: git
+    params:
+      - name: registry
+        type: string
+        description: Docker registry
+        default: image-registry.openshift-image-registry.svc:5000
+      - name: registryNamespace
+        type: string
+        description: Namespace
+        default: kabanero
+      - name: stacks
+        type: string
+        description: List of stacks to build. Specify 'all' to build all stacks.
+        default: all
+      - name: routeHostname
+        type: string
+        description: Hostname of the route for the application hosting stacks index
+        default: ""
+
+  steps:
+    - name: build-stacks
+      securityContext:
+        privileged: true
+      image: quay.io/buildah/stable:v1.9.0
+      command: ["/bin/bash"]
+      args:
+        - -cex
+        - |
+          # install yq
+          /workspace/git-source/ci/install_yq.sh
+
+          # install appsody
+          /workspace/git-source/ci/download_cli.sh
+
+          # install git
+          yum install -y git which findutils
+                
+          # install pyyaml
+          pip3 install pyyaml
+
+          # do build and release
+          export USE_BUILDAH="true"
+          export BUILDAH_FORMAT="docker"
+          export IMAGE_REGISTRY="$(inputs.params.registry)"
+          export IMAGE_REGISTRY_ORG="$(inputs.params.registryNamespace)"
+          export IMAGE_REGISTRY_PUBLISH="true"
+          # disable tests as 'appsody run' does not work without docker
+          export SKIP_TESTS="true"
+          cd /workspace/git-source/
+          if [ "$(inputs.params.stacks)" == "all" ]; then
+            ./ci/build.sh
+          else
+            ./ci/build.sh $(inputs.params.stacks)
+          fi
+          ./ci/release.sh
+      env:
+        - name: gitsource
+          value: git-source
+      volumeMounts:
+        - name: var-lib-containers
+          mountPath: /var/lib/containers
+
+    - name: deploy-stacks-index
+      image: kabanero/kabanero-utils:0.3.0
+      command: ['/bin/sh']
+      args:
+        - -cex
+        - |
+          YAML_FILE=/workspace/git-source/ci/tekton/openshift.yaml
+          if [ -z "$(inputs.params.routeHostname)" ]; then
+            sed -i -e '/host:/d' $YAML_FILE
+          else
+            sed -i -e 's/host:/host: $(inputs.params.routeHostname)/' $YAML_FILE
+          fi
+          sed -i -e 's|REGISTRY|$(inputs.params.registry)|' $YAML_FILE
+          sed -i -e 's|NAMESPACE|$(inputs.params.registryNamespace)|' $YAML_FILE
+          sed -i -e 's|TAG|latest|' $YAML_FILE
+          sed -i -e "s|DATE|$(date --utc '+%FT%TZ')|" $YAML_FILE
+          kubectl apply --validate=false -f $YAML_FILE
+
+  volumes:
+    - name: var-lib-containers
+      emptyDir: {}
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kabanero-index
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: kabanero-index
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  - deployments
+  - services
+  verbs:
+  - get
+  - list
+  - create
+  - delete
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  - deployments/rollback
+  - deployments/scale
+  verbs:
+  - get
+  - list
+  - create
+  - delete
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  - route.openshift.io
+  attributeRestrictions: null
+  resources:
+  - routes
+  verbs:
+  - create
+  - delete
+  - deletecollection
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  - route.openshift.io
+  attributeRestrictions: null
+  resources:
+  - routes/custom-host
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  - route.openshift.io
+  attributeRestrictions: null
+  resources:
+  - routes/status
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  - image.openshift.io
+  attributeRestrictions: null
+  resources:
+  - imagestreams/layers
+  verbs:
+  - get
+  - update
+- apiGroups:
+  - ""
+  - image.openshift.io
+  attributeRestrictions: null
+  resources:
+  - imagestreams
+  verbs:
+  - create
+- apiGroups:
+  - ""
+  - build.openshift.io
+  attributeRestrictions: null
+  resources:
+  - builds/details
+  verbs:
+  - update
+- apiGroups:
+  - ""
+  - build.openshift.io
+  attributeRestrictions: null
+  resources:
+  - builds
+  verbs:
+  - get
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: kabanero-index
+subjects:
+- kind: ServiceAccount
+  name: kabanero-index
+roleRef:
+  kind: Role
+  name: kabanero-index
+  apiGroup: rbac.authorization.k8s.io

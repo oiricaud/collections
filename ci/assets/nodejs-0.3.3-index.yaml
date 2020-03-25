@@ -1,0 +1,19 @@
+apiVersion: v2
+stacks:
+- id: nodejs
+  name: Node.js
+  version: 0.3.3
+  description: Runtime for Node.js applications
+  license: Apache-2.0
+  language: nodejs
+  maintainers:
+  - name: Sam Roberts
+    email: vieuxtech@gmail.com
+    github-id: sam-github
+  default-template: simple
+  templates:
+  - id: simple
+    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/nodejs.v0.3.3.templates.simple.tar.gz
+  requirements:
+    docker-version: '>= 17.09.0'
+    appsody-version: '>= 0.2.7'

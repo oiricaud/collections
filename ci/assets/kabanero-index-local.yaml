@@ -1,0 +1,108 @@
+apiVersion: v2
+stacks:
+- id: java-microprofile
+  name: Eclipse MicroProfile®
+  version: 0.2.26
+  description: Eclipse MicroProfile on Open Liberty & OpenJ9 using Maven
+  license: Apache-2.0
+  language: java
+  maintainers:
+  - name: Emily Jiang
+    email: emijiang6@googlemail.com
+    github-id: Emily-Jiang
+  - name: Neeraj Laad
+    email: neeraj.laad@gmail.com
+    github-id: neeraj-laad
+  - name: Ozzy
+    email: ozzy@ca.ibm.com
+    github-id: BarDweller
+  default-template: default
+  templates:
+  - id: default
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/java-microprofile.v0.2.26.templates.default.tar.gz
+  requirements:
+    appsody-version: '>= 0.5.0'
+- id: java-openliberty
+  name: Open Liberty
+  version: 0.2.3
+  description: Open Liberty & OpenJ9 using Maven
+  license: Apache-2.0
+  language: java
+  maintainers:
+  - name: Mike Andrasak
+    email: andrasak@us.ibm.com
+    github-id: uberskigeek
+  - name: Andy Mauer
+    email: ajmauer@us.ibm.com
+    github-id: ajm01
+  - name: Scott Kurz
+    email: skurz@us.ibm.com
+    github-id: ""
+  - name: Adam Wisniewski
+    email: awisniew@us.ibm.com
+    github-id: ""
+  default-template: default
+  templates:
+  - id: default
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/java-openliberty.v0.2.3.templates.default.tar.gz
+  requirements:
+    docker-version: '>= 17.09.0'
+    appsody-version: '>= 0.5.0'
+- id: java-spring-boot2
+  name: Spring Boot®
+  version: 0.3.27
+  description: Spring Boot using OpenJ9 and Maven
+  license: Apache-2.0
+  language: java
+  maintainers:
+  - name: Erin Schnabel
+    email: schnabel@us.ibm.com
+    github-id: ebullient
+  - name: Ozzy Osborne
+    email: ozzy@ca.ibm.com
+    github-id: bardweller
+  default-template: default
+  templates:
+  - id: default
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/java-spring-boot2.v0.3.27.templates.default.tar.gz
+  - id: kotlin
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/java-spring-boot2.v0.3.27.templates.kotlin.tar.gz
+  requirements:
+    docker-version: '>= 17.09.0'
+    appsody-version: '>= 0.5.0'
+- id: nodejs-express
+  name: Node.js Express
+  version: 0.2.10
+  description: Express web framework for Node.js
+  license: Apache-2.0
+  language: nodejs
+  maintainers:
+  - name: Chris Bailey
+    email: cnbailey@gmail.com
+    github-id: seabaylea
+  - name: Neeraj Laad
+    email: neeraj.laad@gmail.com
+    github-id: neeraj-laad
+  default-template: simple
+  templates:
+  - id: simple
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/nodejs-express.v0.2.10.templates.simple.tar.gz
+  - id: scaffold
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/nodejs-express.v0.2.10.templates.scaffold.tar.gz
+- id: nodejs
+  name: Node.js
+  version: 0.3.3
+  description: Runtime for Node.js applications
+  license: Apache-2.0
+  language: nodejs
+  maintainers:
+  - name: Sam Roberts
+    email: vieuxtech@gmail.com
+    github-id: sam-github
+  default-template: simple
+  templates:
+  - id: simple
+    url: file:///Users/Oscar.Ricaud@ibm.com/Documents/playback/github.ibm.com/collections/ci/assets/nodejs.v0.3.3.templates.simple.tar.gz
+  requirements:
+    docker-version: '>= 17.09.0'
+    appsody-version: '>= 0.2.7'

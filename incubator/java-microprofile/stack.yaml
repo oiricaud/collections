@@ -1,0 +1,20 @@
+name: Eclipse MicroProfile®
+version: 0.2.26
+description: Eclipse MicroProfile on Open Liberty & OpenJ9 using Maven
+license: Apache-2.0
+language: java
+maintainers:
+  - name: Emily Jiang
+    email: emijiang6@googlemail.com
+    github-id: Emily-Jiang
+  - name: Neeraj Laad
+    email: neeraj.laad@gmail.com
+    github-id: neeraj-laad
+  - name: Ozzy
+    email: ozzy@ca.ibm.com
+    github-id: BarDweller
+default-template: default
+requirements:
+    appsody-version: ">= 0.5.0"
+templating-data:
+    libertyversion: '19.0.0.12' 
