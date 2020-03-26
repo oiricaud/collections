@@ -19,7 +19,7 @@ stacks:
   default-template: default
   templates:
   - id: default
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/java-microprofile.v0.2.26.templates.default.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/java-microprofile.v0.2.26.templates.default.tar.gz
   requirements:
     appsody-version: '>= 0.5.0'
 - id: java-openliberty
@@ -44,7 +44,7 @@ stacks:
   default-template: default
   templates:
   - id: default
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/java-openliberty.v0.2.3.templates.default.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/java-openliberty.v0.2.3.templates.default.tar.gz
   requirements:
     docker-version: '>= 17.09.0'
     appsody-version: '>= 0.5.0'
@@ -64,9 +64,9 @@ stacks:
   default-template: default
   templates:
   - id: default
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/java-spring-boot2.v0.3.27.templates.default.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/java-spring-boot2.v0.3.27.templates.default.tar.gz
   - id: kotlin
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/java-spring-boot2.v0.3.27.templates.kotlin.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/java-spring-boot2.v0.3.27.templates.kotlin.tar.gz
   requirements:
     docker-version: '>= 17.09.0'
     appsody-version: '>= 0.5.0'
@@ -86,9 +86,9 @@ stacks:
   default-template: simple
   templates:
   - id: simple
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/nodejs-express.v0.2.10.templates.simple.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/nodejs-express.v0.2.10.templates.simple.tar.gz
   - id: scaffold
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/nodejs-express.v0.2.10.templates.scaffold.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/nodejs-express.v0.2.10.templates.scaffold.tar.gz
 - id: nodejs
   name: Node.js
   version: 0.3.3
@@ -102,7 +102,7 @@ stacks:
   default-template: simple
   templates:
   - id: simple
-    url: https://github.com/Oscar-Ricaud/collections/releases/download/0.6.0/nodejs.v0.3.3.templates.simple.tar.gz
+    url: https://github.com/oiricaud/collections/releases/download/v0.1.2/nodejs.v0.3.3.templates.simple.tar.gz
   requirements:
     docker-version: '>= 17.09.0'
     appsody-version: '>= 0.2.7'
